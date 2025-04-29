@@ -1,0 +1,31 @@
+services:
+  microservice_dbs:
+    image: postgres:latest
+    restart: unless-stopped
+    ports:
+      - ${DB_DATABASE_PORT:-5432}:5432
+    environment:
+      POSTGRES_USER: ${DB_DATABASE_USER}
+      POSTGRES_PASSWORD: ${DB_DATABASE_PASSWORD}
+    volumes:
+      - ./init-multiple-dbs.sql:/docker-entrypoint-initdb.d/init-multiple-dbs.sql
+      - db:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    depends_on:
+      - microservice_dbs
+    ports:
+      - 8001:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+
+volumes:
+  db:
+    driver: local
+  pgadmin:
+    driver: local
