@@ -1,7 +1,7 @@
 package com.ead.course.models;
 
 import com.ead.course.enums.CourseStatus;
-import com.ead.course.enums.CouserLevel;
+import com.ead.course.enums.CourseLevel;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,8 +9,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -51,7 +49,7 @@ public class CourseModel implements Serializable {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private CouserLevel courseLevel;
+    private CourseLevel courseLevel;
 
     @Column(nullable = false)
     private UUID userInstructor;
