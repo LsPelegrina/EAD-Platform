@@ -9,6 +9,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -54,9 +56,10 @@ public class CourseModel implements Serializable {
     @Column(nullable = false)
     private UUID userInstructor;
 
-
+    // cascade = CascadeType.ALL, orphanRemoval = true -> Gera uma query para cada iteração o que é muito custoso.
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY) //Relacionamentos bidirecionais mapeados são mais performáticos
     @Fetch(FetchMode.SUBSELECT)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    //@OnDelete(action = OnDeleteAction.CASCADE) // Delega a exclusão para o banco de dados, o que é um pouco mais performático
     private Set<ModuleModel> modules; //Maneira como Hibernate lida com lists e sets
 }
